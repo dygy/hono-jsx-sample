@@ -1,8 +1,8 @@
-```txt
-npm install
-npm run dev
+```bash
+pnpm i
+pnpm run dev
 ```
 
-```txt
-npm run deploy
+```bash
+pnpm run deploy
 ```

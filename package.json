@@ -3,7 +3,7 @@
   "name": "hono-jsx-sample",
   "author": "dygy",
   "scripts": {
-    "dev": "concurrently \"vite\" \"tailwindcss -i ./src/root.css -o ./public/static/style.css --watch\"",
+    "dev": "concurrently \"vite\" \"tailwindcss -i ./src/root.css -o ./public/static/style.css --minify --watch\"",
     "build": "tailwindcss -i ./src/root.css -o ./public/static/style.css --minify && vite build && vite build --mode client",
     "start": "wrangler pages dev dist"
   },
