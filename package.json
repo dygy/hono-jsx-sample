@@ -5,12 +5,14 @@
   "scripts": {
     "dev": "concurrently \"vite\" \"tailwindcss -i ./src/root.css -o ./public/static/style.css --minify --watch\"",
     "build": "tailwindcss -i ./src/root.css -o ./public/static/style.css --minify && vite build && vite build --mode client",
-    "start": "wrangler pages dev dist"
+    "start": "wrangler pages dev dist",
+    "binome": "npx @biomejs/biome format --write ./src"
   },
   "dependencies": {
     "hono": "4.2.9"
   },
   "devDependencies": {
+    "@biomejs/biome": "1.7.2",
     "@cloudflare/workers-types": "4.20240423.0",
     "@hono/vite-cloudflare-pages": "0.2.5",
     "@hono/vite-dev-server": "0.3.5",

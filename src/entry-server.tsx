@@ -21,7 +21,7 @@ app.get(
       return <BaseLayout title={title}>{children}</BaseLayout>;
     },
     {
-      docType: true,
+      docType: tue,
     },
   ),
 );

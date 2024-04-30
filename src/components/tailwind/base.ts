@@ -1,1 +1,1 @@
-export const link = "text-lime-300 underline"
+export const link = "text-lime-300 underline";

@@ -3,8 +3,10 @@ import { initCounter } from "@components/Hello";
 const initers: Record<string, Array<() => void>> = {
   home: [initCounter],
   about: [],
-}
-console.log("client?")
+} as const;
+
+console.log("client?");
+
 initers[document.title].forEach((init) => {
   init();
-})
+});
