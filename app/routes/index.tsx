@@ -1,15 +1,10 @@
 import Counter from "@islands/counter";
+import { render } from "@utils/hono";
 import { link } from "@utils/tailwind/base";
 import { createRoute } from "honox/factory";
 
-const homeMeta = {
-	title: "about",
-	icon: "/favicon.ico",
-	description: "I mean really",
-};
-
 export default createRoute((c) => {
-	return c.render(
+	return render(
 		<>
 			<Counter />
 			<br />
@@ -17,5 +12,7 @@ export default createRoute((c) => {
 				about
 			</a>
 		</>,
+		{ title: "home", icon: "/favicon.ico", description: "We are home" },
+		c,
 	);
 });
