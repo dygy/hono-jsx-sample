@@ -4,14 +4,17 @@
 	"author": "dygy",
 	"scripts": {
 		"dev": "concurrently \"vite\" \"tailwindcss -i ./app/root.css -o ./public/static/style.css --minify --watch\"",
-		"build": "tailwindcss -i ./app/root.css -o ./public/static/style.css --minify && vite build && vite build --mode client",
-		"start": "wrangler pages dev dist",
-		"binome": "npx @biomejs/biome format --write ./src"
+		"build": "tailwindcss -i ./app/root.css -o ./public/static/style.css --minify",
+		"start": "vite --host 0.0.0.0",
+		"find-ip": "docker inspect -f '{{range.NetworkSettings.Networks}}{{.IPAddress}}{{end}}' hono-jsx-sample-app-1",
+		"binome": "npx @biomejs/biome format --write ./"
 	},
 	"dependencies": {
 		"@mdx-js/rollup": "^3.0.1",
+		"dotenv": "^16.4.5",
 		"hono": "4.2.9",
 		"honox": "0.1.15",
+		"prisma": "^5.13.0",
 		"remark-frontmatter": "^5.0.0",
 		"remark-mdx-frontmatter": "^4.0.0"
 	},
@@ -20,6 +23,7 @@
 		"@cloudflare/workers-types": "4.20240423.0",
 		"@hono/vite-cloudflare-pages": "0.2.5",
 		"@hono/vite-dev-server": "0.3.5",
+		"@prisma/client": "^5.13.0",
 		"autoprefixer": "10.4.19",
 		"concurrently": "8.2.2",
 		"cssnano": "6.1.2",

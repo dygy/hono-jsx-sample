@@ -9,44 +9,44 @@ import { defineConfig } from "vite";
 import tsconfigPaths from "vite-tsconfig-paths";
 
 export default defineConfig(({ mode }) => {
-	if (mode === "client") {
-		return {
-			plugins: [client()],
-			build: {
-				rollupOptions: {
-					input: ["/app/style.css"],
-					output: {
-						assetFileNames: "static/assets/[name].[ext]",
-					},
-				},
-			},
-		};
-	}
-	return {
-		plugins: [
-			tsconfigPaths(),
-			honox(),
-			pages(),
-			mdx({
-				jsxImportSource: "hono/jsx",
-				remarkPlugins: [remarkFrontmatter, remarkMdxFrontmatter],
-			}),
-		],
-		rollupOptions: {
-			output: {
-				dir: "./dist/static",
-			},
-		},
-		emptyOutDir: false,
-		copyPublicDir: false,
-		build: {
-			rollupOptions: {
-				input: ["/app/style.css"],
-				output: {
-					assetFileNames: "static/assets/[name].[ext]",
-					entryFileNames: "_worker.js",
-				},
-			},
-		},
-	};
+  if (mode === "client") {
+    return {
+      plugins: [client()],
+      build: {
+        rollupOptions: {
+          input: ["./dist/static/style.css"],
+          output: {
+            assetFileNames: "static/assets/[name].[ext]",
+          },
+        },
+      },
+    };
+  }
+  return {
+    plugins: [
+      tsconfigPaths(),
+      honox(),
+      pages(),
+      mdx({
+        jsxImportSource: "hono/jsx",
+        remarkPlugins: [remarkFrontmatter, remarkMdxFrontmatter],
+      }),
+    ],
+    rollupOptions: {
+      output: {
+        dir: "./dist/static",
+      },
+    },
+    emptyOutDir: false,
+    copyPublicDir: false,
+    build: {
+      rollupOptions: {
+        input: ["./dist/static/style.css"],
+        output: {
+          assetFileNames: "static/assets/[name].[ext]",
+          entryFileNames: "_worker.js",
+        },
+      },
+    },
+  };
 });
