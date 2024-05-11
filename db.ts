@@ -14,7 +14,6 @@ declare global {
   var prisma: undefined | ReturnType<typeof prismaClientSingleton>;
 }
 
-// biome-ignore lint/suspicious/noRedeclare: singleton pattern
 const prisma = globalThis.prisma ?? prismaClientSingleton();
 
 export default prisma;
