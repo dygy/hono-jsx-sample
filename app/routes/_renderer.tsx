@@ -6,6 +6,7 @@ import { link } from "@utils/tailwind/base";
 
 export default jsxRenderer(
   ({ title, children, icon, cookie }: PropsWithChildren<Metadata>) => {
+    //TODO:// add i18n
     const language = new Intl.Locale(cookie?.language ?? "en");
 
     return (

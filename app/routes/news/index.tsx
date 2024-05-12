@@ -3,10 +3,13 @@ import { button, card, link } from "@utils/tailwind/base";
 import { createRoute } from "honox/factory";
 
 export default createRoute(async (c) => {
+  const page = parseInt(c.req.query("page") ?? "0", 10);
   const posts = await c.get("prisma").post.findMany({
     take: 20,
+    skip: page * 20,
     include: { author: true },
   });
+  // TODO add pagination
 
   return render(
     <div className="flex flex-col gap-4 p-4">
