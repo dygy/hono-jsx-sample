@@ -1,5 +1,5 @@
 import { render } from "@utils/hono";
-import { button, link } from "@utils/tailwind/base";
+import { button, card, link } from "@utils/tailwind/base";
 import { createRoute } from "honox/factory";
 
 export default createRoute(async (c) => {
@@ -12,9 +12,12 @@ export default createRoute(async (c) => {
     <div className="flex flex-col gap-4 p-4">
       {posts.map((post) => {
         return (
-          <div className="rounded-lg bg-gray-400 p-4 text-lime-700">
+          <div className={card}>
             <em className="flex gap-1">
-              <a className={link} href={`/news/${post.author_id}`}>
+              <a
+                className={`${link} text-lime-500`}
+                href={`/news/${post.author_id}`}
+              >
                 {post.author.name}
               </a>
               - {post.created_at.toLocaleString()}

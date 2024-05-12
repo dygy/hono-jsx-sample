@@ -28,7 +28,13 @@ export default jsxRenderer(
         </head>
         <body className="flex h-screen flex-col items-stretch justify-between bg-emerald-600 text-gray-100">
           <header className="flex h-10 w-full items-center justify-center border-b border-gray-700 bg-lime-700 font-semibold">
-            {title?.toUpperCase() || "no name"}
+            <h1>{title?.toUpperCase() || "no name"}</h1>
+            <a
+              href="/news/create"
+              className="absolute top-1.5 ltr:right-2 rtl:left-2"
+            >
+              <button className="rounded-full bg-lime-400 px-2">+</button>
+            </a>
           </header>
           <main className="h-[inherit] p-2">{children}</main>
           <footer className="flex h-10 w-full items-center justify-around border-t border-gray-700 bg-lime-700 font-serif">
