@@ -9,8 +9,12 @@ services:
       - POSTGRES_USER=$POSTGRESDB_USER
       - POSTGRES_PASSWORD=$POSTGRESDB_ROOT_PASSWORD
       - POSTGRES_DB=$POSTGRESDB_DATABASE
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
     ports:
       - $POSTGRESDB_LOCAL_PORT:$POSTGRESDB_DOCKER_PORT
+    expose:
+      - $POSTGRESDB_LOCAL_PORT
     volumes:
       - db:/var/lib/postgres
     networks:
@@ -24,6 +28,8 @@ services:
     env_file: ./.env
     ports:
       - $NODE_LOCAL_PORT:$NODE_DOCKER_PORT
+    expose:
+      - $NODE_LOCAL_PORT
     environment:
       - DB_HOST=postgresdb
       - DB_USER=$POSTGRESDB_USER

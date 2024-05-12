@@ -3,19 +3,15 @@ import { link } from "@utils/tailwind/base";
 import { createRoute } from "honox/factory";
 
 export default createRoute((c) => {
-	return render(
-		<>
-			<h1>this is the about page!</h1>
-
-			<a className={link} href="/">
-				home
-			</a>
-		</>,
-		{
-			title: "about",
-			icon: "/favicon.ico",
-			description: "I mean really",
-		},
-		c,
-	);
+  return render(
+    <>
+      <h1>this is the about page!</h1>
+    </>,
+    {
+      title: "about",
+      icon: "/favicon.ico",
+      description: "I mean really",
+    },
+    c,
+  );
 });

@@ -8,3 +8,26 @@ datasource db {
   url      = env("DATABASE_URL")
   schemas  = ["public"]
 }
+
+model author {
+  id    String  @id @default(uuid())
+  email String  @unique
+  name  String
+  posts post[]
+  created_at DateTime @default(now())
+
+  @@schema("public")
+}
+
+model post {
+  id         Int     @id @default(autoincrement())
+  title      String
+  text       String
+  author_id  String
+  created_at DateTime @default(now())
+  updated_at DateTime @updatedAt
+
+  author     author @relation(fields: [author_id], references: [id])
+
+  @@schema("public")
+}
