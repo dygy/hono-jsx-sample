@@ -1,5 +1,6 @@
 import { getCookie } from "hono/cookie";
-import { Context } from "hono/dist/types";
+import type { Context, Env } from "hono/dist/types";
+import type { Cookie } from "../global";
 
 export function decodeBase64(base64: string) {
   const binString = atob(base64);
@@ -15,7 +16,7 @@ export function readCookie(c: Context) {
   const cookie = getRawCookie(c);
 
   if (!cookie) {
-    return c.redirect("https://google.com");
+    return {} as Cookie;
   }
-  return JSON.parse(decodeBase64(cookie)) as object;
+  return JSON.parse(decodeBase64(cookie)) as Cookie;
 }

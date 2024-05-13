@@ -1,11 +1,15 @@
 import type { Metadata } from "@utils/type/html";
-import { PrismaClient } from "@prisma/client";
+import type { PrismaClient } from "@prisma/client";
+import type { Dictionary, Language } from "@utils/i18n";
+
+export type Cookie = { language: Language };
 
 declare module "hono" {
   interface Env {
     Variables: {
       prisma: PrismaClient;
-      cookie: object;
+      cookie: Cookie;
+      dict: Dictionary;
     };
     Bindings: {
       DB: D1Database;
