@@ -1,29 +1,50 @@
 import type { Metadata } from "@utils/type/html";
 import type { PropsWithChildren } from "hono/jsx";
 import { jsxRenderer } from "hono/jsx-renderer";
-import { HasIslands } from "honox/server";
+import { HasIslands, Script } from "honox/server";
 import { link } from "@utils/tailwind/base";
+import { cn } from "@utils/helpers";
 
 export default jsxRenderer(
-  ({ title, children, icon, cookie }: PropsWithChildren<Metadata>) => {
-    //TODO:// add i18n
+  ({
+    title,
+    children,
+    icon,
+    cookie,
+    enableScroll,
+    prefetches,
+  }: PropsWithChildren<Metadata>) => {
     const language = new Intl.Locale(cookie?.language ?? "en");
 
     return (
-      // @ts-expect-error lol it works, why error?
-      <html dir={language.textInfo.direction} lang={cookie?.language ?? "en"}>
+      <html
+        className={cn(
+          // @ts-expect-error lol it works, why error?
+          language?.textInfo?.direction ?? "ltr",
+          !enableScroll && "overflow-hidden",
+        )}
+        // @ts-expect-error lol it works, why error?
+        dir={language?.textInfo?.direction}
+        lang={cookie?.language ?? "en"}
+      >
         <head>
           <meta charSet="UTF-8" />
           <link rel="icon" type="image/x-icon" href={icon} />
           <meta name="google" content="notranslate" />
           <meta name="viewport" content="width=device-width, initial-scale=1" />
-          <link href="/static/style.css" rel="stylesheet" />
-          {import.meta.env.PROD ? (
+          {prefetches}
+          {import.meta.env.MODE === "production" ? (
             <HasIslands>
+              <link rel="preload" href="/static/style.css" as="style" />
+              <link rel="stylesheet" href="/static/style.css" as="style" />
               <script type="module" src="/static/client.js" />
             </HasIslands>
           ) : (
-            <script type="module" src="/app/client.ts" />
+            <>
+              <link rel="preload" href="/app/root.css" as="style" />
+              <link rel="stylesheet" href="/app/root.css" as="style" />
+              <Script src="/app/client.ts" />
+            </>
           )}
           <title>{title ?? "HONOX"}</title>
         </head>

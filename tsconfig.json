@@ -1,17 +1,23 @@
 {
+	"exclude": ["node_modules"],
 	"compilerOptions": {
+		"allowSyntheticDefaultImports": true,
 		"resolveJsonModule": true,
 		"target": "ESNext",
 		"module": "ESNext",
 		"moduleResolution": "node",
 		"esModuleInterop": true,
 		"strict": true,
-		"lib": ["esnext"],
+		"lib": [
+			"esnext",
+			"dom"
+		],
 		"types": ["@cloudflare/workers-types", "vite/client"],
 		"jsx": "react-jsx",
 		"jsxImportSource": "hono/jsx",
 		"baseUrl": "./app",
 		"paths": {
+			"@components/*": ["components/*"],
 			"@islands/*": ["islands/*"],
 			"@layouts/*": ["layouts/*"],
 			"@pages/*": ["pages/*"],

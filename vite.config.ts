@@ -1,27 +1,64 @@
-import pages from "@hono/vite-cloudflare-pages";
-import mdx from "@mdx-js/rollup";
 import honox from "honox/vite";
-import client from "honox/vite/client";
-import remarkFrontmatter from "remark-frontmatter";
-import remarkMdxFrontmatter from "remark-mdx-frontmatter";
-import { defineConfig } from "vite";
+import { type ConfigEnv, defineConfig } from "vite";
 import tsconfigPaths from "vite-tsconfig-paths";
+import commonjs from "vite-plugin-commonjs";
+import { ViteMinifyPlugin } from "vite-plugin-minify";
 
-const baseConfig = {
-  ssr: {
-    external: ["@prisma/client", "@prisma/adapter-d1"],
+const commonJS = commonjs({
+  filter(id) {
+    // `node_modules` is excluded by default, so we need to include it explicitly
+    // https://github.com/vite-plugin/vite-plugin-commonjs/blob/v0.7.0/src/index.ts#L125-L127
+    if (
+      id.includes("node_modules/") &&
+      !!["date-fns", "@babel", "lodash"].find((dependency) => {
+        return id.includes(dependency);
+      })
+    ) {
+      return true;
+    }
   },
-};
+});
 
-export default defineConfig(({ mode }) => {
-  if (mode === "client") {
+const baseConfig = (env: ConfigEnv["mode"]) => ({
+  ssr: {
+    external: ["@prisma/client"],
+  },
+  server: {
+    port: 3000,
+    host: "0.0.0.0",
+    hmr:
+      env === "development"
+        ? true
+        : {
+            host: "discover-city-stage.tawasal.ae",
+            port: 3001,
+            protocol: "wss",
+          },
+    warmup: {
+      clientFiles: ["./app/islands/**/*.tsx", "./src/utils/**/*.ts"],
+      ssrFiles: [
+        "./app/components/**/*.tsx",
+        "./app/components/**/*.tsx",
+        "./src/utils/**/*.ts",
+      ],
+    },
+  },
+});
+
+export default defineConfig((params) => {
+  console.log(params.mode);
+  if (params.mode === "production") {
     return {
-      ...baseConfig,
-      plugins: [client()],
+      ...baseConfig(params.mode),
+      plugins: [tsconfigPaths(), honox({}), ViteMinifyPlugin({}), commonJS],
+      optimizeDeps: {
+        include: ["date-fns", "lodash"],
+      },
       build: {
-        commonjsOptions: { transformMixedEsModules: true, ignoreGlobal: true },
+        minify: "terser",
+        commonjsOptions: { transformMixedEsModules: true },
         rollupOptions: {
-          input: ["./dist/static/style.css"],
+          input: ["public/static/style.css"],
           output: {
             assetFileNames: "static/assets/[name].[ext]",
           },
@@ -30,31 +67,37 @@ export default defineConfig(({ mode }) => {
     };
   }
   return {
-    ...baseConfig,
-    plugins: [
-      tsconfigPaths(),
-      honox(),
-      pages(),
-      mdx({
-        jsxImportSource: "hono/jsx",
-        remarkPlugins: [remarkFrontmatter, remarkMdxFrontmatter],
-      }),
-    ],
+    ...baseConfig(params.mode),
+    plugins: [tsconfigPaths(), honox(), ViteMinifyPlugin({}), commonJS],
+    optimizeDeps: {
+      include: ["date-fns", "lodash"],
+    },
     rollupOptions: {
       output: {
         dir: "./dist/static",
       },
     },
-    emptyOutDir: false,
-    copyPublicDir: false,
+    emptyOutDir: true,
+    copyPublicDir: true,
     build: {
-      commonjsOptions: { transformMixedEsModules: true, ignoreGlobal: true },
+      commonjsOptions: { transformMixedEsModules: true },
       rollupOptions: {
-        input: ["./dist/static/style.css"],
+        input: ["public/static/style.css"],
         output: {
           assetFileNames: "static/assets/[name].[ext]",
-          entryFileNames: "_worker.js",
         },
+      },
+    },
+    preview: {
+      port: 3000,
+      host: "0.0.0.0",
+      warmup: {
+        clientFiles: ["./app/islands/**/*.tsx", "./src/utils/**/*.ts"],
+        ssrFiles: [
+          "./app/components/**/*.tsx",
+          "./app/components/**/*.tsx",
+          "./src/utils/**/*.ts",
+        ],
       },
     },
   };

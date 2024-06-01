@@ -1,3 +1,58 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+@layer base {
+    body {
+        max-height: 100vh;
+    }
+}
+
+@layer utilities {
+    /* For Webkit-based browsers (Chrome, Safari and Opera) */
+    .scrollbar-hide::-webkit-scrollbar {
+        display: none;
+    }
+
+    /* For IE, Edge and Firefox */
+    .scrollbar-hide {
+        -ms-overflow-style: none;
+        /* IE and Edge */
+        scrollbar-width: none;
+        /* Firefox */
+    }
+}
+
+a,
+button,
+input {
+    touch-action: manipulation;
+    cursor: pointer;
+}
+
+input,
+textarea,
+button,
+select,
+a {
+    -webkit-tap-highlight-color: transparent;
+}
+
+.rtl .aligned-start {
+    text-align: right;
+}
+.rtl .aligned-end {
+    text-align: left;
+}
+.rtl .sensetive-icon {
+    transform: scaleX(-1);
+}
+
+
+.ltr .aligned-start {
+    text-align: left;
+}
+
+.ltr .aligned-end {
+    text-align: right;
+}

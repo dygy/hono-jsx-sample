@@ -5,5 +5,7 @@ export type Metadata = Partial<{
   viewport: string;
   title: string;
   icon: string;
+  enableScroll?: boolean;
+  prefetches?: JSX.Element[];
   cookie: Record<string, any>;
 }>;
